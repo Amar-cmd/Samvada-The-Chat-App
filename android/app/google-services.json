@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "167930798336",
+    "project_id": "samvada-967ab",
+    "storage_bucket": "samvada-967ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167930798336:android:d66567603823ba3ff753e5",
+        "android_client_info": {
+          "package_name": "com.samvada"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojixNgmcdVNMb1xBd2jepbYBblz9XQDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
