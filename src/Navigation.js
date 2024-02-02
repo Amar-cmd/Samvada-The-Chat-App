@@ -14,6 +14,7 @@ import WallpaperScreen from './screens/LoggedInScreens/WallpaperScreen';
 import WallpaperViewer from './screens/LoggedInScreens/WallpaperViewer';
 import WallpaperPreviewScreen from './screens/LoggedInScreens/WallpaperPreviewScreen';
 import {TransitionPresets} from '@react-navigation/stack';
+import CameraScreen from './screens/LoggedInScreens/CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,11 @@ export const SignedInStack = () => {
       <Stack.Screen
         name="AllContacts"
         component={AllContactsScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CameraScreen"
+        component={CameraScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

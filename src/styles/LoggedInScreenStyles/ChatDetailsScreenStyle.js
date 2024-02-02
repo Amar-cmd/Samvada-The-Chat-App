@@ -129,18 +129,38 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
   },
-  emojiButton: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
+  messageImage: {
+    width: 200, // Or any size you prefer
+    height: 200, // Or any size you prefer
+    resizeMode: 'cover', // Adjust as needed
+    borderRadius: 10, // Optional: for rounded corners
+    marginVertical: 5,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  fullScreenImageContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'black', // Or any other background color
   },
-  emojiPicker: {
+  fullScreenImage: {
+    width: '100%', // Full width
+    height: '80%', // Adjust as needed
+    resizeMode: 'contain',
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#0004', // Choose a suitable color
+    borderRadius: 5,
     position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: '40%', // Adjust the height as needed, this is just an example
+    top: 0,
+    right:10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
   },
 });
 

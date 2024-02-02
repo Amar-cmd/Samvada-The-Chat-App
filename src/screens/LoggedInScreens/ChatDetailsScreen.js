@@ -9,8 +9,8 @@ import {
   Alert,
   ScrollView,
   ImageBackground,
-  Keyboard,
   Modal,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -38,6 +38,9 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [localWallpaper, setLocalWallpaper] = useState(null);
+  const [selectedImageUri, setSelectedImageUri] = useState(null);
+
+  console.log('Image Tapped', selectedImageUri);
   const scrollViewRef = useRef(null);
 
   const handleToggleMessageSelection = messageId => {
@@ -176,6 +179,12 @@ const ChatDetailsScreen = ({navigation, route}) => {
     loadWallpaper();
   }, [wallpaper, setWallpaper]);
 
+  // Check for msg debug
+  {
+    chatMessages.map(msg => {
+      console.log(msg.imageUrl);
+    });
+  }
   return (
     <>
       <StatusBar
@@ -294,14 +303,36 @@ const ChatDetailsScreen = ({navigation, route}) => {
                         handleToggleMessageSelection(msg.id);
                       }
                     }}>
-                    <Text
+                    {/* <Text
                       style={
                         msg.sender === UID
                           ? styles.senderMessage
                           : styles.recipientMessage
                       }>
                       {msg.text}
-                    </Text>
+                    </Text> */}
+
+                    {msg.imageUrl ? (
+                      // If there's an imageUrl, render an image
+                      <TouchableOpacity
+                        onPress={() => setSelectedImageUri(msg.imageUrl)}>
+                        <Image
+                          source={{uri: msg.imageUrl}}
+                          style={{width: 200, height: 200}}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      // Otherwise, render the text message
+                      <Text
+                        style={
+                          msg.sender === UID
+                            ? styles.senderMessageText
+                            : styles.recipientMessageText
+                        }>
+                        {msg.text}
+                      </Text>
+                    )}
+
                     <Text style={styles.messageTime}>
                       {formatTime(msg.timestamp)}
                     </Text>
@@ -337,14 +368,26 @@ const ChatDetailsScreen = ({navigation, route}) => {
                       handleToggleMessageSelection(msg.id);
                     }
                   }}>
-                  <Text
-                    style={
-                      msg.sender === UID
-                        ? styles.senderMessage
-                        : styles.recipientMessage
-                    }>
-                    {msg.text}
-                  </Text>
+                  {msg.imageUrl ? (
+                    // If there's an imageUrl, render an image
+                    <TouchableOpacity
+                      onPress={() => setSelectedImageUri(msg.imageUrl)}>
+                      <Image
+                        source={{uri: msg.imageUrl}}
+                        style={styles.messageImage}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    // Otherwise, render the text message
+                    <Text
+                      style={
+                        msg.sender === UID
+                          ? styles.senderMessage
+                          : styles.recipientMessage
+                      }>
+                      {msg.text}
+                    </Text>
+                  )}
                   <Text style={styles.messageTime}>
                     {formatTime(msg.timestamp)}
                   </Text>
@@ -359,9 +402,17 @@ const ChatDetailsScreen = ({navigation, route}) => {
           styles.inputContainer,
           {backgroundColor: theme.containerBackground},
         ]}>
-        <TouchableOpacity>
-          <Entypo name="emoji-happy" size={30} color="#fff" />
-        </TouchableOpacity>
+        <View style={styles.emojiButton}>
+          <TouchableOpacity onPress={() => console.log('emoji')}>
+            <Entypo name="emoji-happy" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.emojiButton}>
+          <TouchableOpacity onPress={() => console.log('add')}>
+            <Entypo name="attachment" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
 
         <TextInput
           style={styles.textInput}
@@ -371,6 +422,19 @@ const ChatDetailsScreen = ({navigation, route}) => {
           placeholderTextColor="#6A5BC2"
           multiline
         />
+
+        <View style={styles.emojiButton}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('CameraScreen', {
+                UID: UID,
+                receiverUID: receiverUID,
+              })
+            }>
+            <Entypo name="camera" size={30} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
           <Icon name="send" size={16} color="#FFFFFF" />
         </TouchableOpacity>
@@ -395,6 +459,24 @@ const ChatDetailsScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       )}
+
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={!!selectedImageUri}
+        onRequestClose={() => setSelectedImageUri(null)}>
+        <View style={styles.fullScreenImageContainer}>
+          <Pressable
+            style={styles.closeButton}
+            onPress={() => setSelectedImageUri(null)}>
+            <Text style={styles.closeButtonText}>&#10006;</Text>
+          </Pressable>
+          <Image
+            source={{uri: selectedImageUri}}
+            style={styles.fullScreenImage}
+          />
+        </View>
+      </Modal>
     </>
   );
 };
