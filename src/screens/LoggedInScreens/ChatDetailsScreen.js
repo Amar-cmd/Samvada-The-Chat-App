@@ -21,6 +21,18 @@ import styles from '../../styles/LoggedInScreenStyles/ChatDetailsScreenStyle';
 import {WallpaperContext} from '../../context/WallpaperContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import DocumentPicker from 'react-native-document-picker';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FileViewer from 'react-native-file-viewer';
+
+const formatSize = size => {
+  if (size < 1024) return size + ' bytes';
+  else if (size < 1024 * 1024) return (size / 1024).toFixed(2) + ' KB';
+  else if (size < 1024 * 1024 * 1024)
+    return (size / (1024 * 1024)).toFixed(2) + ' MB';
+  return (size / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+};
+
 
 const ChatDetailsScreen = ({navigation, route}) => {
   const theme = useContext(ThemeContext);
@@ -43,7 +55,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [showIcons, setShowIcons] = useState(false);
   const [selectedImageUri, setSelectedImageUri] = useState(false);
 
-  console.log('URI -> ',selectedImageUri);
+  console.log('URI -> ', selectedImageUri);
   // Toggle the visibility of the icons
   const toggleIcons = () => {
     setShowIcons(!showIcons);
@@ -160,7 +172,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
   };
 
   const handleProfileImagePress = () => {
-    setShowIcons(false)
+    setShowIcons(false);
     const options = {
       mediaType: 'photo',
       includeBase64: true,
@@ -185,6 +197,55 @@ const ChatDetailsScreen = ({navigation, route}) => {
       receiverUID: receiverUID,
     });
   };
+
+  const handleSelectDocument = async () => {
+    try {
+      const results = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf], // Only pick PDF files
+        // type: [DocumentPicker.types.pdf, DocumentPicker.types.pptx], //! for multifile (later)
+        copyTo: 'cachesDirectory',
+      });
+
+      // Assuming single file selection, get the first result
+      const pickedDocument = results[0];
+      console.log('Selected document: ', pickedDocument);
+
+      // Extracted URI
+      const documentUri = pickedDocument.fileCopyUri;
+      const documentName = pickedDocument.name;
+      const documentSize = pickedDocument.size;
+      console.log('Selected document URI: ', documentUri);
+      navigation.navigate('UploadPdfScreen', {
+        documentUri: documentUri,
+        documentName: documentName,
+        documentSize: documentSize,
+        UID: UID,
+        receiverUID: receiverUID,
+      });
+
+      // Now you can use documentUri for uploading
+      // If your upload function supports content URIs, you can use it directly
+      // Otherwise, you might need to convert it into a file path or use a blob
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the document picker');
+      } else {
+        console.warn(err);
+        Alert.alert('Error', 'Unable to select document. Please try again.');
+      }
+    }
+  };
+
+  
+const openPDF = async filePath => {
+  try {
+    await FileViewer.open(filePath, {showOpenWithDialog: true}); // Show "Open with" dialog if multiple PDF reader apps are installed
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  
   useEffect(() => {
     const chatID = [UID, receiverUID].sort().join('_');
     const chatRef = database().ref(`conversations/${chatID}/messages`);
@@ -428,14 +489,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
                     }
                   }}>
                   {msg.imageUrl ? (
-                    // If there's an imageUrl, render an image
-                    // <TouchableOpacity
-                    //   onPress={() => setSelectedImageUri(msg.imageUrl)}>
-                    //   <Image
-                    //     source={{uri: msg.imageUrl}}
-                    //     style={styles.messageImage}
-                    //   />
-                    // </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() =>
                         navigation.navigate('ViewChatImage', {
@@ -457,6 +510,73 @@ const ChatDetailsScreen = ({navigation, route}) => {
                       }>
                       {msg.text}
                     </Text>
+                  )}
+                  {msg.pdfUrl && (
+                    <View>
+                      {/* <TouchableOpacity onPress={() => openPDF(msg.filePath)}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignSelf: 'center',
+                          }}>
+                          <MaterialCommunityIcons
+                            name="file-pdf-box"
+                            size={30}
+                            color="#fff"
+                          />
+                          <Text
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                            style={{
+                              maxWidth: '100%',
+                              color: '#fff',
+                              marginLeft: 6,
+                            }}>
+                            {msg.name}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            marginTop: 10,
+                          }}>
+                          <Text>{formatSize(msg.size)}</Text>
+                          <Text style={{marginHorizontal: 10}}> • </Text>
+                          <Text>PDF</Text>
+                        </View>
+                      </TouchableOpacity> */}
+                      <TouchableOpacity onPress={() => openPDF(msg.pdfPath)}>
+                        <View
+                          style={{flexDirection: 'row', alignSelf: 'center'}}>
+                          <MaterialCommunityIcons
+                            name="file-pdf-box"
+                            size={30}
+                            color="#fff"
+                          />
+                          <Text
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                            style={{
+                              maxWidth: '100%',
+                              color: '#fff',
+                              marginLeft: 6,
+                            }}>
+                            {msg.name}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            marginTop: 10,
+                          }}>
+                          <Text>{formatSize(msg.size)}</Text>
+                          <Text style={{marginHorizontal: 10}}> • </Text>
+                          <Text>PDF</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   )}
                   <Text style={styles.messageTime}>
                     {formatTime(msg.timestamp)}
@@ -485,7 +605,9 @@ const ChatDetailsScreen = ({navigation, route}) => {
             <TouchableOpacity onPress={performSecondTask} style={styles.icon}>
               <MaterialIcons name="audiotrack" size={25} color="#6A5BC2" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={performThirdTask} style={styles.icon}>
+            <TouchableOpacity
+              onPress={handleSelectDocument}
+              style={styles.icon}>
               <MaterialIcons name="text-snippet" size={25} color="#6A5BC2" />
             </TouchableOpacity>
             <TouchableOpacity

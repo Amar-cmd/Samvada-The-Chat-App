@@ -16,6 +16,7 @@ import WallpaperPreviewScreen from './screens/LoggedInScreens/WallpaperPreviewSc
 import {TransitionPresets} from '@react-navigation/stack';
 import CameraScreen from './screens/LoggedInScreens/CameraScreen';
 import ViewChatImageScreen from './screens/LoggedInScreens/ViewChatImageScreen';
+import UploadPdfScreen from './screens/LoggedInScreens/UploadPdfScreen';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +58,11 @@ export const SignedInStack = () => {
       <Stack.Screen
         name="ChatDetails"
         component={ChatDetailsScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="UploadPdfScreen"
+        component={UploadPdfScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
