@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     borderColor: '#6A5BC2',
     borderRadius: 20,
     // marginRight: 10,
-    color: '#6A5BC2',
+    color: '#fff',
     maxHeight: 150,
   },
   sendButton: {
@@ -172,13 +172,23 @@ const styles = StyleSheet.create({
     bottom: 70,
     width: '100%',
     borderRadius: 20,
-    paddingVertical:20,
+    paddingVertical: 20,
   },
   icon: {
     // Styles for the icon touchable opacity, if needed
     backgroundColor: '#fff',
     padding: 10,
-    borderRadius:50,
+    borderRadius: 50,
+  },
+  image: {
+    width: 200, // Set image size as needed
+    height: 200,
+    // marginTop: 20,
+    // borderRadius: 100, // Round the corners if needed
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left:0
   },
 });
 

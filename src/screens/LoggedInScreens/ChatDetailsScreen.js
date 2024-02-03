@@ -20,6 +20,7 @@ import database from '@react-native-firebase/database';
 import styles from '../../styles/LoggedInScreenStyles/ChatDetailsScreenStyle';
 import {WallpaperContext} from '../../context/WallpaperContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const ChatDetailsScreen = ({navigation, route}) => {
   const theme = useContext(ThemeContext);
@@ -30,8 +31,8 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const userImage = route.params.userImage;
 
   console.log('==========================');
-  console.log('sender UID = ', UID);
-  console.log('receiver UID = ', receiverUID);
+  // console.log('sender UID = ', UID);
+  // console.log('receiver UID = ', receiverUID);
 
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
@@ -40,7 +41,9 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [localWallpaper, setLocalWallpaper] = useState(null);
   const [showIcons, setShowIcons] = useState(false);
+  const [selectedImageUri, setSelectedImageUri] = useState(false);
 
+  console.log('URI -> ',selectedImageUri);
   // Toggle the visibility of the icons
   const toggleIcons = () => {
     setShowIcons(!showIcons);
@@ -50,6 +53,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const performFirstTask = () => {
     console.log('Performing first task');
     // Add your task code here
+    navigateToCameraScreen(navigation, UID, receiverUID);
   };
 
   const performSecondTask = () => {
@@ -148,6 +152,39 @@ const ChatDetailsScreen = ({navigation, route}) => {
     }
   };
 
+  const navigateToCameraScreen = (navigation, UID, receiverUID) => {
+    navigation.navigate('CameraScreen', {
+      UID: UID,
+      receiverUID: receiverUID,
+    });
+  };
+
+  const handleProfileImagePress = () => {
+    setShowIcons(false)
+    const options = {
+      mediaType: 'photo',
+      includeBase64: true,
+      quality: 1,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.error('ImagePicker Error: ', response.errorMessage);
+        Alert.alert('Error', 'Image picker error. Please try again.');
+      } else if (response.assets && response.assets.length > 0) {
+        const source = {uri: response.assets[0].uri};
+        setSelectedImageUri(source.uri);
+      }
+    });
+
+    navigation.navigate('ViewChatImage', {
+      uri: selectedImageUri,
+      UID: UID,
+      receiverUID: receiverUID,
+    });
+  };
   useEffect(() => {
     const chatID = [UID, receiverUID].sort().join('_');
     const chatRef = database().ref(`conversations/${chatID}/messages`);
@@ -203,12 +240,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
     loadWallpaper();
   }, [wallpaper, setWallpaper]);
 
-  // Check for msg debug
-  {
-    chatMessages.map(msg => {
-      console.log(msg.imageUrl);
-    });
-  }
   return (
     <>
       <StatusBar
@@ -457,7 +488,9 @@ const ChatDetailsScreen = ({navigation, route}) => {
             <TouchableOpacity onPress={performThirdTask} style={styles.icon}>
               <MaterialIcons name="text-snippet" size={25} color="#6A5BC2" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={performFourthTask} style={styles.icon}>
+            <TouchableOpacity
+              onPress={handleProfileImagePress}
+              style={styles.icon}>
               <MaterialIcons name="image" size={25} color="#6A5BC2" />
             </TouchableOpacity>
           </View>
