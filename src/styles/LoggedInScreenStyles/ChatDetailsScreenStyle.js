@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#6A5BC2',
     borderRadius: 20,
-    marginRight: 10,
+    // marginRight: 10,
     color: '#6A5BC2',
     maxHeight: 150,
   },
@@ -162,6 +162,23 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 24,
     color: 'white',
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 5,
+    backgroundColor: '#6A5BC2',
+    position: 'absolute',
+    bottom: 70,
+    width: '100%',
+    borderRadius: 20,
+    paddingVertical:20,
+  },
+  icon: {
+    // Styles for the icon touchable opacity, if needed
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius:50,
   },
 });
 

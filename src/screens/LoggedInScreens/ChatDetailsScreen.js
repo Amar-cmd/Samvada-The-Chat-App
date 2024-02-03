@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {ThemeContext} from '../../context/ThemeContext';
 import database from '@react-native-firebase/database';
 import styles from '../../styles/LoggedInScreenStyles/ChatDetailsScreenStyle';
@@ -38,6 +39,31 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [localWallpaper, setLocalWallpaper] = useState(null);
+  const [showIcons, setShowIcons] = useState(false);
+
+  // Toggle the visibility of the icons
+  const toggleIcons = () => {
+    setShowIcons(!showIcons);
+  };
+
+  // Define tasks for each icon
+  const performFirstTask = () => {
+    console.log('Performing first task');
+    // Add your task code here
+  };
+
+  const performSecondTask = () => {
+    console.log('Performing second task');
+    // Add your task code here
+  };
+  const performThirdTask = () => {
+    console.log('Performing second task');
+    // Add your task code here
+  };
+  const performFourthTask = () => {
+    console.log('Performing second task');
+    // Add your task code here
+  };
 
   const scrollViewRef = useRef(null);
 
@@ -415,15 +441,31 @@ const ChatDetailsScreen = ({navigation, route}) => {
           styles.inputContainer,
           {backgroundColor: theme.containerBackground},
         ]}>
-        <View style={styles.emojiButton}>
+        <View style={{padding: 5}}>
           <TouchableOpacity onPress={() => console.log('emoji')}>
-            <Entypo name="emoji-happy" size={30} color="#fff" />
+            <Entypo name="emoji-happy" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
+        {showIcons && (
+          <View style={styles.iconsContainer}>
+            <TouchableOpacity onPress={performFirstTask} style={styles.icon}>
+              <Entypo name="camera" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={performSecondTask} style={styles.icon}>
+              <MaterialIcons name="audiotrack" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={performThirdTask} style={styles.icon}>
+              <MaterialIcons name="text-snippet" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={performFourthTask} style={styles.icon}>
+              <MaterialIcons name="image" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
+          </View>
+        )}
 
-        <View style={styles.emojiButton}>
-          <TouchableOpacity onPress={() => console.log('add')}>
-            <Entypo name="attachment" size={30} color="#fff" />
+        <View style={{padding: 5}}>
+          <TouchableOpacity onPress={toggleIcons}>
+            <Entypo name="attachment" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -436,7 +478,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
           multiline
         />
 
-        <View style={styles.emojiButton}>
+        <View style={{padding: 5}}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('CameraScreen', {
@@ -444,7 +486,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
                 receiverUID: receiverUID,
               })
             }>
-            <Entypo name="camera" size={30} color="#fff" />
+            <Entypo name="camera" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -472,7 +514,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       )}
-
     </>
   );
 };
