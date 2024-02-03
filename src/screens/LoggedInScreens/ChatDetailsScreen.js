@@ -38,9 +38,7 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [localWallpaper, setLocalWallpaper] = useState(null);
-  const [selectedImageUri, setSelectedImageUri] = useState(null);
 
-  console.log('Image Tapped', selectedImageUri);
   const scrollViewRef = useRef(null);
 
   const handleToggleMessageSelection = messageId => {
@@ -315,7 +313,11 @@ const ChatDetailsScreen = ({navigation, route}) => {
                     {msg.imageUrl ? (
                       // If there's an imageUrl, render an image
                       <TouchableOpacity
-                        onPress={() => setSelectedImageUri(msg.imageUrl)}>
+                        onPress={() =>
+                          navigation.navigate('ViewChatImage', {
+                            url: msg.imageUrl,
+                          })
+                        }>
                         <Image
                           source={{uri: msg.imageUrl}}
                           style={{width: 200, height: 200}}
@@ -370,8 +372,19 @@ const ChatDetailsScreen = ({navigation, route}) => {
                   }}>
                   {msg.imageUrl ? (
                     // If there's an imageUrl, render an image
+                    // <TouchableOpacity
+                    //   onPress={() => setSelectedImageUri(msg.imageUrl)}>
+                    //   <Image
+                    //     source={{uri: msg.imageUrl}}
+                    //     style={styles.messageImage}
+                    //   />
+                    // </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => setSelectedImageUri(msg.imageUrl)}>
+                      onPress={() =>
+                        navigation.navigate('ViewChatImage', {
+                          url: msg.imageUrl,
+                        })
+                      }>
                       <Image
                         source={{uri: msg.imageUrl}}
                         style={styles.messageImage}
@@ -460,23 +473,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
         </View>
       )}
 
-      <Modal
-        animationType="fade"
-        transparent={false}
-        visible={!!selectedImageUri}
-        onRequestClose={() => setSelectedImageUri(null)}>
-        <View style={styles.fullScreenImageContainer}>
-          <Pressable
-            style={styles.closeButton}
-            onPress={() => setSelectedImageUri(null)}>
-            <Text style={styles.closeButtonText}>&#10006;</Text>
-          </Pressable>
-          <Image
-            source={{uri: selectedImageUri}}
-            style={styles.fullScreenImage}
-          />
-        </View>
-      </Modal>
     </>
   );
 };

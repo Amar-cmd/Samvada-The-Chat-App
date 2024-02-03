@@ -142,25 +142,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black', // Or any other background color
+    backgroundColor: 'black', // This ensures that the background is visible
   },
   fullScreenImage: {
-    width: '100%', // Full width
-    height: '80%', // Adjust as needed
-    resizeMode: 'contain',
+    width: 100, // This should fill the screen width
+    height: 100, // This should fill the screen height
+    resizeMode: 'contain', // This ensures the image fits within the screen bounds
   },
+
   closeButton: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#0004', // Choose a suitable color
-    borderRadius: 5,
     position: 'absolute',
-    top: 0,
-    right:10,
+    top: 40, // Adjust as per the safe area insets or header height
+    right: 20, // Keep it towards the top-right corner of the screen
+    zIndex: 1, // Ensure it's above the image
+    backgroundColor: 'rgba(0,0,0,0.6)', // Optional: make it slightly transparent
+    padding: 8,
+    borderRadius: 20,
   },
   closeButtonText: {
+    fontSize: 24,
     color: 'white',
-    fontSize: 20,
   },
 });
 
