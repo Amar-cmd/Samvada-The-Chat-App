@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     textAlign: 'center',
     marginBottom: 20, // Add margin for spacing
+    width:'90%',
   },
   audioSize: {
     color: '#fff',

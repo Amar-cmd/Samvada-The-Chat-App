@@ -18,6 +18,7 @@ import CameraScreen from './screens/LoggedInScreens/CameraScreen';
 import ViewChatImageScreen from './screens/LoggedInScreens/ViewChatImageScreen';
 import UploadPdfScreen from './screens/LoggedInScreens/UploadPdfScreen';
 import UploadAudioScreen from './screens/LoggedInScreens/UploadAudioScreen';
+import UploadVideoScreen from './screens/LoggedInScreens/UploadVideoScreen';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,11 @@ export const SignedInStack = () => {
       <Stack.Screen
         name="UploadAudioScreen"
         component={UploadAudioScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="UploadVideoScreen"
+        component={UploadVideoScreen}
         options={{headerShown: false}}
       />
 

@@ -188,7 +188,29 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left:0
+    left: 0,
+  },
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginTop: 20,
+    // marginBottom: 20, // Add margin for spacing
+    width: '80%',
+  },
+  slider: {
+    flex: 1, // Take up all available space in the container
+    marginLeft: 10, // Add some space before the slider
+    marginRight: 10, // Add some space after the slider
+  },
+  timeText: {
+    color: '#FFFFFF',
+  },
+  playPause: {
+    backgroundColor: '#6A5BC2',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 50,
+    marginTop: 20, // Add margin for spacing
   },
 });
 

@@ -23,6 +23,8 @@ import DocumentPicker from 'react-native-document-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FileViewer from 'react-native-file-viewer';
 import RNFetchBlob from 'rn-fetch-blob';
+import Slider from '@react-native-community/slider';
+import Sound from 'react-native-sound';
 
 const formatSize = size => {
   if (size < 1024) return size + ' bytes';
@@ -31,7 +33,6 @@ const formatSize = size => {
     return (size / (1024 * 1024)).toFixed(2) + ' MB';
   return (size / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
 };
-
 
 const ChatDetailsScreen = ({navigation, route}) => {
   const theme = useContext(ThemeContext);
@@ -53,6 +54,11 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [localWallpaper, setLocalWallpaper] = useState(null);
   const [showIcons, setShowIcons] = useState(false);
   const [selectedImageUri, setSelectedImageUri] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // Track if the audio is playing
+  const [audio, setAudio] = useState(null); // Hold the Sound instance
+  const [currentPosition, setCurrentPosition] = useState(0); // Current position of the playback
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [currentAudioUrl, setCurrentAudioUrl] = useState(null); // Track the URL of the currently playing audio
 
   console.log('URI -> ', selectedImageUri);
   // Toggle the visibility of the icons
@@ -235,6 +241,43 @@ const ChatDetailsScreen = ({navigation, route}) => {
     }
   };
 
+  const handleSelectVideo = async () => {
+    try {
+      const results = await DocumentPicker.pick({
+        type: [DocumentPicker.types.video], // Only pick PDF files
+        // type: [DocumentPicker.types.pdf, DocumentPicker.types.pptx], //! for multifile (later)
+        copyTo: 'cachesDirectory',
+      });
+
+      // Assuming single file selection, get the first result
+      const pickedVideo = results[0];
+      console.log('Selected document: ', pickedVideo);
+
+      // Extracted URI
+      const videoUri = pickedVideo.fileCopyUri;
+      const videoName = pickedVideo.name;
+      const videoSize = pickedVideo.size;
+      console.log('Selected document URI: ', videoUri);
+      navigation.navigate('UploadVideoScreen', {
+        videoUri: videoUri,
+        videoName: videoName,
+        videoSize: videoSize,
+        UID: UID,
+        receiverUID: receiverUID,
+      });
+
+      // Now you can use documentUri for uploading
+      // If your upload function supports content URIs, you can use it directly
+      // Otherwise, you might need to convert it into a file path or use a blob
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the document picker');
+      } else {
+        console.warn(err);
+        Alert.alert('Error', 'Unable to select document. Please try again.');
+      }
+    }
+  };
 
   const handleSelectAudio = async () => {
     try {
@@ -275,14 +318,13 @@ const ChatDetailsScreen = ({navigation, route}) => {
     }
   };
 
-  
-const openPDF = async filePath => {
-  try {
-    await FileViewer.open(filePath, {showOpenWithDialog: true}); // Show "Open with" dialog if multiple PDF reader apps are installed
-  } catch (error) {
-    console.error(error);
-  }
-};
+  const openPDF = async filePath => {
+    try {
+      await FileViewer.open(filePath, {showOpenWithDialog: true}); // Show "Open with" dialog if multiple PDF reader apps are installed
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   //! This function first download the pdf then open interpolate. it does not save the document in the Directory.
   //! Use this function when you want to download pdf (each time) and open it.
@@ -304,7 +346,6 @@ const openPDF = async filePath => {
   //   }
   // };
 
-  
   useEffect(() => {
     const chatID = [UID, receiverUID].sort().join('_');
     const chatRef = database().ref(`conversations/${chatID}/messages`);
@@ -324,6 +365,96 @@ const openPDF = async filePath => {
       chatRef.off();
     };
   }, [UID, receiverUID]);
+
+  // Function to toggle audio play/pause
+  // const togglePlayPause = audioUrl => {
+  //   // Initialize Sound instance if it hasn't been already
+  //   if (!audio) {
+  //     const soundInstance = new Sound(audioUrl, '', error => {
+  //       if (error) {
+  //         console.log('failed to load the sound', error);
+  //         return;
+  //       }
+  //       // Play the sound if the file is loaded successfully
+  //       soundInstance.play(() => {
+  //         soundInstance.release(); // Release the audio player resource when the audio ends
+  //       });
+  //       setIsPlaying(true);
+  //     });
+
+  //     setAudio(soundInstance);
+  //   } else {
+  //     // Control play/pause if audio is already initialized
+  //     if (isPlaying) {
+  //       audio.pause();
+  //       setIsPlaying(false);
+  //     } else {
+  //       audio.play();
+  //       setIsPlaying(true);
+  //     }
+  //   }
+  // };
+
+  const togglePlayPause = audioUrl => {
+    // If the tapped audio is different from the currently playing one, stop the current audio
+    if (audio && currentAudioUrl !== audioUrl) {
+      audio.stop(() => {
+        audio.release();
+        setAudio(null);
+        setIsPlaying(false);
+        // Start the new audio
+        playAudio(audioUrl);
+      });
+    } else if (audio && isPlaying) {
+      // If the same audio is tapped and is playing, pause it
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      // If audio is paused, play it again, or if it's the first time, play the audio
+      if (!audio) {
+        playAudio(audioUrl);
+      } else {
+        audio.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  const playAudio = audioUrl => {
+    const soundInstance = new Sound(audioUrl, '', error => {
+      if (error) {
+        console.log('Failed to load the sound', error);
+        return;
+      }
+      // Play the sound if the file is loaded successfully
+      soundInstance.play(() => {
+        soundInstance.release(); // Release the audio player resource when the audio ends
+        setAudio(null);
+        setIsPlaying(false);
+        setCurrentAudioUrl(null);
+      });
+      setAudio(soundInstance);
+      setIsPlaying(true);
+      setCurrentAudioUrl(audioUrl);
+    });
+  };
+
+  // Remember to clean up the Sound instance when the component unmounts or the URL changes
+  // useEffect(() => {
+  //   return () => {
+  //     if (audio) {
+  //       audio.release();
+  //     }
+  //   };
+  // }, [audio]);
+  useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.release();
+      }
+    };
+  }, [audio]);
+
 
   useEffect(() => {
     // If the count of selected messages is 0, disable the selection mode
@@ -532,7 +663,7 @@ const openPDF = async filePath => {
                   {msg.pdfUrl && (
                     <View>
                       <TouchableOpacity onPress={() => openPDF(msg.pdfPath)}>
-                      {/* <TouchableOpacity onPress={() => downloadAndOpenPDF(msg.pdfUrl)}> */}
+                        {/* <TouchableOpacity onPress={() => downloadAndOpenPDF(msg.pdfUrl)}> */}
                         <View
                           style={{flexDirection: 'row', alignSelf: 'center'}}>
                           <MaterialCommunityIcons
@@ -557,13 +688,62 @@ const openPDF = async filePath => {
                             justifyContent: 'center',
                             marginTop: 10,
                           }}>
-                          <Text>{formatSize(msg.size)}</Text>
-                          <Text style={{marginHorizontal: 10}}> • </Text>
-                          <Text>PDF</Text>
+                          <Text
+                            style={{
+                              color: '#fff',
+                            }}>
+                            {formatSize(msg.size)}
+                          </Text>
+                          <Text style={{marginHorizontal: 10, color: '#fff'}}>
+                            •
+                          </Text>
+                          <Text
+                            style={{
+                              color: '#fff',
+                            }}>
+                            PDF
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     </View>
                   )}
+
+                  {msg.audioUrl && (
+                    <TouchableOpacity
+                      onPress={() => togglePlayPause(msg.audioUrl)}
+                      style={{alignSelf: 'center'}}>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Icon name="volume-high" size={30} color="#fff" />
+                        <Text
+                          numberOfLines={2}
+                          ellipsizeMode="tail"
+                          style={{
+                            maxWidth: 200, // Set a fixed max width for text
+                            color: '#fff',
+                            marginLeft: 6,
+                          }}>
+                          {msg.name}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          marginTop: 10,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: '#fff'}}>
+                          {formatSize(msg.size)}
+                        </Text>
+                        <Text style={{marginHorizontal: 10, color: '#fff'}}>
+                          •
+                        </Text>
+                        <Text style={{color: '#fff'}}>AUDIO</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+
                   <Text style={styles.messageTime}>
                     {formatTime(msg.timestamp)}
                   </Text>
@@ -588,18 +768,27 @@ const openPDF = async filePath => {
             <TouchableOpacity onPress={performFirstTask} style={styles.icon}>
               <Entypo name="camera" size={25} color="#6A5BC2" />
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleProfileImagePress}
+              style={styles.icon}>
+              <MaterialIcons name="image" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
             <TouchableOpacity onPress={handleSelectAudio} style={styles.icon}>
               <MaterialIcons name="audiotrack" size={25} color="#6A5BC2" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleSelectVideo}
+              style={styles.icon}>
+              <MaterialIcons
+                name="video-library"
+                size={25}
+                color="#6A5BC2"
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleSelectDocument}
               style={styles.icon}>
               <MaterialIcons name="text-snippet" size={25} color="#6A5BC2" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleProfileImagePress}
-              style={styles.icon}>
-              <MaterialIcons name="image" size={25} color="#6A5BC2" />
             </TouchableOpacity>
           </View>
         )}
