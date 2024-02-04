@@ -118,7 +118,7 @@ const UploadVideoScreen = ({route, navigation}) => {
         size: videoSize,
         timestamp: database.ServerValue.TIMESTAMP,
         sender: UID,
-        pdfPath: videoUri,
+        videoPath: videoUri,
       });
     };
 

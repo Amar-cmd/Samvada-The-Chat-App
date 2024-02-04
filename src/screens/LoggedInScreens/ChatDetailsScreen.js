@@ -420,6 +420,10 @@ const ChatDetailsScreen = ({navigation, route}) => {
     }
   };
 
+  const openVideo = videoUrl => {
+    navigation.navigate('ViewChatVideoScreen', {videoUrl});
+  };
+
   const playAudio = audioUrl => {
     const soundInstance = new Sound(audioUrl, '', error => {
       if (error) {
@@ -454,7 +458,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
       }
     };
   }, [audio]);
-
 
   useEffect(() => {
     // If the count of selected messages is 0, disable the selection mode
@@ -744,6 +747,40 @@ const ChatDetailsScreen = ({navigation, route}) => {
                     </TouchableOpacity>
                   )}
 
+                  {msg.videoUrl && (
+                    <TouchableOpacity onPress={() => openVideo(msg.videoUrl)}>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Icon name="videocam" size={30} color="#fff" />
+                        <Text
+                          numberOfLines={2}
+                          ellipsizeMode="tail"
+                          style={{
+                            maxWidth: 200, // Set a fixed max width for text
+                            color: '#fff',
+                            marginLeft: 6,
+                          }}>
+                          {msg.name}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          marginTop: 10,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: '#fff'}}>
+                          {formatSize(msg.size)}
+                        </Text>
+                        <Text style={{marginHorizontal: 10, color: '#fff'}}>
+                          •
+                        </Text>
+                        <Text style={{color: '#fff'}}>VIDEO</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+
                   <Text style={styles.messageTime}>
                     {formatTime(msg.timestamp)}
                   </Text>
@@ -776,14 +813,8 @@ const ChatDetailsScreen = ({navigation, route}) => {
             <TouchableOpacity onPress={handleSelectAudio} style={styles.icon}>
               <MaterialIcons name="audiotrack" size={25} color="#6A5BC2" />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleSelectVideo}
-              style={styles.icon}>
-              <MaterialIcons
-                name="video-library"
-                size={25}
-                color="#6A5BC2"
-              />
+            <TouchableOpacity onPress={handleSelectVideo} style={styles.icon}>
+              <MaterialIcons name="video-library" size={25} color="#6A5BC2" />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleSelectDocument}
