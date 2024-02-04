@@ -9,8 +9,6 @@ import {
   Alert,
   ScrollView,
   ImageBackground,
-  Modal,
-  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -24,6 +22,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FileViewer from 'react-native-file-viewer';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const formatSize = size => {
   if (size < 1024) return size + ' bytes';
@@ -236,6 +235,46 @@ const ChatDetailsScreen = ({navigation, route}) => {
     }
   };
 
+
+  const handleSelectAudio = async () => {
+    try {
+      const results = await DocumentPicker.pick({
+        type: [DocumentPicker.types.audio], // Only pick PDF files
+        // type: [DocumentPicker.types.pdf, DocumentPicker.types.pptx], //! for multifile (later)
+        copyTo: 'cachesDirectory',
+      });
+
+      // Assuming single file selection, get the first result
+      const pickedAudio = results[0];
+      console.log('Selected document: ', pickedAudio);
+
+      // Extracted URI
+      const audioUri = pickedAudio.fileCopyUri;
+      const audioName = pickedAudio.name;
+      const audioSize = pickedAudio.size;
+
+      console.log('Selected document URI: ', audioUri);
+      navigation.navigate('UploadAudioScreen', {
+        audioUri: audioUri,
+        audioName: audioName,
+        audioSize: audioSize,
+        UID: UID,
+        receiverUID: receiverUID,
+      });
+
+      // Now you can use documentUri for uploading
+      // If your upload function supports content URIs, you can use it directly
+      // Otherwise, you might need to convert it into a file path or use a blob
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the document picker');
+      } else {
+        console.warn(err);
+        Alert.alert('Error', 'Unable to select document. Please try again.');
+      }
+    }
+  };
+
   
 const openPDF = async filePath => {
   try {
@@ -244,6 +283,26 @@ const openPDF = async filePath => {
     console.error(error);
   }
 };
+
+  //! This function first download the pdf then open interpolate. it does not save the document in the Directory.
+  //! Use this function when you want to download pdf (each time) and open it.
+
+  // const downloadAndOpenPDF = async remoteUrl => {
+  //   const {dirs} = RNFetchBlob.fs;
+  //   const localFilePath = `${dirs.CacheDir}/temp.pdf`;
+
+  //   try {
+  //     // Download the file to local storage
+  //     const res = await RNFetchBlob.config({
+  //       path: localFilePath,
+  //     }).fetch('GET', remoteUrl);
+
+  //     // Use the local file path to open the PDF
+  //     await FileViewer.open(localFilePath, {showOpenWithDialog: true});
+  //   } catch (error) {
+  //     console.error('The file could not be downloaded or opened:', error);
+  //   }
+  // };
 
   
   useEffect(() => {
@@ -346,47 +405,6 @@ const openPDF = async filePath => {
         </View>
 
         <View style={styles.content}>
-          {/* <ScrollView
-            showsVerticalScrollIndicator={true}
-            ref={scrollViewRef}
-            onContentSizeChange={() => {
-              if (shouldScrollToBottom) {
-                scrollViewRef.current.scrollToEnd({animated: false});
-              }
-            }}>
-            {chatMessages.map(msg => (
-              <TouchableOpacity
-                key={msg.id}
-                style={[
-                  msg.sender === UID
-                    ? styles.senderMessageContainer
-                    : styles.recipientMessageContainer,
-                  selectedMessages.includes(msg.id)
-                    ? styles.selectedMessage
-                    : null,
-                ]}
-                onLongPress={() => handleActivateSelectionMode(msg.id)}
-                onPress={() => {
-                  // Only handle tap selection if selection mode is active
-                  if (isSelectionMode) {
-                    handleToggleMessageSelection(msg.id);
-                  }
-                }}>
-                <Text
-                  style={
-                    msg.sender === UID
-                      ? styles.senderMessage
-                      : styles.recipientMessage
-                  }>
-                  {msg.text}
-                </Text>
-                <Text style={styles.messageTime}>
-                  {formatTime(msg.timestamp)}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView> */}
-
           {wallpaper ? (
             // <ImageBackground source={wallpaper.source} style={styles.backgroundImage}>
             <ImageBackground
@@ -513,40 +531,8 @@ const openPDF = async filePath => {
                   )}
                   {msg.pdfUrl && (
                     <View>
-                      {/* <TouchableOpacity onPress={() => openPDF(msg.filePath)}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignSelf: 'center',
-                          }}>
-                          <MaterialCommunityIcons
-                            name="file-pdf-box"
-                            size={30}
-                            color="#fff"
-                          />
-                          <Text
-                            numberOfLines={2}
-                            ellipsizeMode="tail"
-                            style={{
-                              maxWidth: '100%',
-                              color: '#fff',
-                              marginLeft: 6,
-                            }}>
-                            {msg.name}
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            marginTop: 10,
-                          }}>
-                          <Text>{formatSize(msg.size)}</Text>
-                          <Text style={{marginHorizontal: 10}}> • </Text>
-                          <Text>PDF</Text>
-                        </View>
-                      </TouchableOpacity> */}
                       <TouchableOpacity onPress={() => openPDF(msg.pdfPath)}>
+                      {/* <TouchableOpacity onPress={() => downloadAndOpenPDF(msg.pdfUrl)}> */}
                         <View
                           style={{flexDirection: 'row', alignSelf: 'center'}}>
                           <MaterialCommunityIcons
@@ -602,7 +588,7 @@ const openPDF = async filePath => {
             <TouchableOpacity onPress={performFirstTask} style={styles.icon}>
               <Entypo name="camera" size={25} color="#6A5BC2" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={performSecondTask} style={styles.icon}>
+            <TouchableOpacity onPress={handleSelectAudio} style={styles.icon}>
               <MaterialIcons name="audiotrack" size={25} color="#6A5BC2" />
             </TouchableOpacity>
             <TouchableOpacity
