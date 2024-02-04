@@ -22,8 +22,6 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FileViewer from 'react-native-file-viewer';
-import RNFetchBlob from 'rn-fetch-blob';
-import Slider from '@react-native-community/slider';
 import Sound from 'react-native-sound';
 
 const formatSize = size => {
@@ -56,8 +54,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
   const [selectedImageUri, setSelectedImageUri] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false); // Track if the audio is playing
   const [audio, setAudio] = useState(null); // Hold the Sound instance
-  const [currentPosition, setCurrentPosition] = useState(0); // Current position of the playback
-  const [audioDuration, setAudioDuration] = useState(0);
   const [currentAudioUrl, setCurrentAudioUrl] = useState(null); // Track the URL of the currently playing audio
 
   console.log('URI -> ', selectedImageUri);
@@ -71,19 +67,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
     console.log('Performing first task');
     // Add your task code here
     navigateToCameraScreen(navigation, UID, receiverUID);
-  };
-
-  const performSecondTask = () => {
-    console.log('Performing second task');
-    // Add your task code here
-  };
-  const performThirdTask = () => {
-    console.log('Performing second task');
-    // Add your task code here
-  };
-  const performFourthTask = () => {
-    console.log('Performing second task');
-    // Add your task code here
   };
 
   const scrollViewRef = useRef(null);
@@ -795,11 +778,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
           styles.inputContainer,
           {backgroundColor: theme.containerBackground},
         ]}>
-        <View style={{padding: 5}}>
-          <TouchableOpacity onPress={() => console.log('emoji')}>
-            <Entypo name="emoji-happy" size={25} color="#fff" />
-          </TouchableOpacity>
-        </View>
         {showIcons && (
           <View style={styles.iconsContainer}>
             <TouchableOpacity onPress={performFirstTask} style={styles.icon}>
