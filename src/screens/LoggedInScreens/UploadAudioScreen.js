@@ -37,30 +37,6 @@ const UploadAudioScreen = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // const uploadAudio = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const fileName = `audio_${new Date().getTime()}_${audioName}.mp3`;
-  //     // Reference to where the file is to be stored in Firebase Storage
-  //     const fileRef = storage().ref(`${UID}/${receiverUID}/audio/${fileName}`);
-
-  //     // Upload the file to Firebase Storage
-  //     await fileRef.putFile(audioUri);
-
-  //     // After uploading, fetch the URL of the pdf
-  //     const uploadedUrl = await fileRef.getDownloadURL();
-  //     console.log('Download URL:', uploadedUrl);
-  //     sendAudioMessage(uploadedUrl);
-  //     setLoading(false);
-  //     Alert.alert('Upload Successful', 'PDF has been uploaded successfully.');
-
-  //     navigation.goBack();
-  //   } catch (error) {
-  //     setLoading(false);
-  //     Alert.alert('Error sending photo:', error.message);
-  //   }
-  // };
-
   const uploadAudio = async () => {
     setLoading(true);
     try {
@@ -119,27 +95,6 @@ const UploadAudioScreen = ({route, navigation}) => {
     });
   };
 
-  // useEffect(() => {
-  //   // Enable playback in silence mode
-  //   Sound.setCategory('Playback');
-
-  //   // Load the audio file
-  //   const sound = new Sound(audioUri, '', error => {
-  //     if (error) {
-  //       console.log('Failed to load the sound', error);
-  //       return;
-  //     }
-  //     // loaded successfully
-  //     setAudioLength(sound.getDuration()); // Get the duration
-  //   });
-
-  //   setAudio(sound);
-
-  //   return () => {
-  //     sound.release(); // Release the audio player resource on component unmount
-  //   };
-  // }, [audioUri]);
-
   // Define all hooks and their dependent functions at the top level
   useEffect(() => {
     Sound.setCategory('Playback');
@@ -175,15 +130,6 @@ const UploadAudioScreen = ({route, navigation}) => {
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (isPlaying) {
-  //     const interval = setInterval(() => {
-  //       audio.getCurrentTime(seconds => setCurrentPosition(seconds));
-  //     }, 1000);
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [isPlaying, audio]);
 
   useEffect(() => {
     if (isPlaying) {
