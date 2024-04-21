@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#6A5BC2',
     borderRadius: 20,
-    // marginRight: 10,
-    color: '#fff',
+    marginRight: 10,
+    color: '#6A5BC2',
     maxHeight: 150,
   },
   sendButton: {

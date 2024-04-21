@@ -804,7 +804,19 @@ const ChatDetailsScreen = ({navigation, route}) => {
 
         <View style={{padding: 5}}>
           <TouchableOpacity onPress={toggleIcons}>
-            <Entypo name="attachment" size={25} color="#fff" />
+            <Entypo name="attachment" size={25} color="#6A5BC2" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{padding: 5}}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('CameraScreen', {
+                UID: UID,
+                receiverUID: receiverUID,
+              })
+            }>
+            <Entypo name="camera" size={25} color="#6A5BC2" />
           </TouchableOpacity>
         </View>
 
@@ -816,18 +828,6 @@ const ChatDetailsScreen = ({navigation, route}) => {
           placeholderTextColor="#6A5BC2"
           multiline
         />
-
-        <View style={{padding: 5}}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('CameraScreen', {
-                UID: UID,
-                receiverUID: receiverUID,
-              })
-            }>
-            <Entypo name="camera" size={25} color="#fff" />
-          </TouchableOpacity>
-        </View>
 
         <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
           <Icon name="send" size={16} color="#FFFFFF" />
