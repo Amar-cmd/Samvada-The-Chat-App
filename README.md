@@ -1,3 +1,5 @@
+![ic_launcher](https://github.com/Amar-cmd/Samvada-The-Chat-App/assets/70061426/57191936-c51f-4c1e-98a1-ebfbb8f1c819)
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
