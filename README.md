@@ -46,15 +46,19 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 1. **Realtime Communication**
 
 - Instant messaging with seamless, real-time updates.
+
 2. **User Authentication and OTP Verification**
 
 - Secure user login and registration with OTP verification to ensure account safety.
+
 3. **App Customization**
 
 - Users can personalize their chat experience by changing the chat window wallpaper.
+
 4. **Theme Auto Detection**
 
 - Automatic theme adjustment based on the device's theme setting, supporting both Dark Mode and Light Mode.
+
 5. **Multimedia Messaging**
 
 - Send and receive regular text messages.
@@ -62,19 +66,24 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 - Ability to send and receive video files.
 - Support for sending and receiving audio files.
 - Capability to share documents within the chat.
+
 6. **Camera Access**
 
 - Integrated camera functionality to click photos and send image files directly within the chat.
+
 7. **Media Preview**
 
 - Preview video files and audio files directly within the chat window before sending or after receiving.
+
 8. **Contact List Management**
 
 - Auto detection of the contact list.
 - Segregation of contacts into app members and non-members for easier communication management.
+
 9. **Performance Optimization**
 
 - Lazy loading of old messages to enhance app performance and provide a smooth user experience.
+
 10. **Profile Viewing and Editing**
 
 - View other users' profiles, including their image, name, and contact number.
@@ -104,12 +113,15 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 
 ## **Screenshots**
-1. **WELCOME SCREEN**![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142933_Savda.jpg)
+1. **WELCOME SCREEN**
+   ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142933_Savda.jpg)
 
 ---
-2. **REGISTRATION & LOGIN SCREEN**![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142943_Savda.jpg)
+2. **REGISTRATION & LOGIN SCREEN**
+   ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142943_Savda.jpg)
 ---
-3. **VALIDATION SCREEN**![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-143041_Savda.jpg)
+3. **VALIDATION SCREEN**
+   ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-143041_Savda.jpg)
 
 ---
 4. **HOME SCREEN**![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142307_Savda.jpg)
