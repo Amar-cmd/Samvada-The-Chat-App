@@ -133,7 +133,7 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142307_Savda.jpg)
 
 ---
-### 5. RECERIVER SCREEN
+### 5. RECEIVER SCREEN
 ---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142808_Savda.jpg)
 
