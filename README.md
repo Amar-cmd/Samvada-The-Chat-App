@@ -150,14 +150,17 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 ---
 ### 10. WALLPAPER PREVIEW SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142837_Savda.jpg)
 
 ---
 ### 11. WALLPAPER SCREEN OPTIONS
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Asset%201.png)
 
 ---
 ### 12. PREVIEW SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142855_Savda.jpg)
 
 
