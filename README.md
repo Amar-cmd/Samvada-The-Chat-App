@@ -113,39 +113,49 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 
 ## **Screenshots**
+---
 ### 1. WELCOME SCREEN
+---
    ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142933_Savda.jpg)
 
 ---
 ### 2. REGISTRATION & LOGIN SCREEN
+---
    ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142943_Savda.jpg)
 ---
 ### 3. VALIDATION SCREEN
+---
    ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-143041_Savda.jpg)
 
 ---
 ### 4. HOME SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142307_Savda.jpg)
 
 ---
 ### 5. RECERIVER SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142808_Savda.jpg)
 
 ---
 ### 6. CHAT SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142542_Savda.jpg)
 
 ---
 
 ### 7. USER PROFILE SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Asset%202.png)
 
 ---
 ### 8. CONTACT SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Asset%203.png)
 
 ---
 ### 9. MENU SCREEN
+---
 ![image](https://raw.githubusercontent.com/Amar-cmd/Samvada-The-Chat-App/main/Readme%20Images/Screenshot_20240518-142823_Savda.jpg)
 
 ---
