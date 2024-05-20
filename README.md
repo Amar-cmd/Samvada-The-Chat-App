@@ -10,34 +10,34 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 | Dependencies                                      | Version   |
 | ------------------------------------------------- | --------- |
-| @miblanchard/react-native-slider                  | ^2.3.1    |
-| @react-native-async-storage/async-storage         | ^1.19.3   |
-| @react-native-community/slider                    | ^4.5.0    |
-| @react-native-firebase/app                        | ^18.4.0   |
-| @react-native-firebase/auth                       | ^18.4.0   |
-| @react-native-firebase/database                   | ^18.4.0   |
-| @react-native-firebase/firestore                  | ^18.4.0   |
-| @react-native-firebase/storage                    | ^18.4.0   |
-| @react-navigation/native                          | ^6.1.7    |
-| @react-navigation/stack                           | ^6.3.17   |
-| deprecated-react-native-prop-types                | ^5.0.0    |
+| @miblanchard/react-native-slider                  | 2.3.1    |
+| @react-native-async-storage/async-storage         | 1.19.3   |
+| @react-native-community/slider                    | 4.5.0    |
+| @react-native-firebase/app                        | 18.4.0   |
+| @react-native-firebase/auth                       | 18.4.0   |
+| @react-native-firebase/database                   | 18.4.0   |
+| @react-native-firebase/firestore                  | 18.4.0   |
+| @react-native-firebase/storage                    | 18.4.0   |
+| @react-navigation/native                          | 6.1.7    |
+| @react-navigation/stack                           | 6.3.17   |
+| deprecated-react-native-prop-types                | 5.0.0    |
 | react                                             | 18.2.0    |
 | react-native                                      | 0.72.4    |
-| react-native-camera                               | ^4.2.1    |
-| react-native-contacts                             | ^7.0.7    |
-| react-native-document-picker                      | ^9.1.0    |
-| react-native-fast-image                           | ^8.6.3    |
-| react-native-file-viewer                          | ^2.1.5    |
-| react-native-gesture-handler                      | ^2.13.0   |
-| react-native-image-picker                         | ^7.0.0    |
-| react-native-permissions                          | ^4.1.1    |
-| react-native-reanimated                           | ^3.5.2    |
-| react-native-safe-area-context                    | ^4.7.2    |
-| react-native-screens                              | ^3.25.0   |
-| react-native-sound                                | ^0.11.2   |
-| react-native-vector-icons                         | ^10.0.0   |
-| react-native-video                                | ^5.2.1    |
-| rn-fetch-blob                                     | ^0.12.0   |
+| react-native-camera                               | 4.2.1    |
+| react-native-contacts                             | 7.0.7    |
+| react-native-document-picker                      | 9.1.0    |
+| react-native-fast-image                           | 8.6.3    |
+| react-native-file-viewer                          | 2.1.5    |
+| react-native-gesture-handler                      | 2.13.0   |
+| react-native-image-picker                         | 7.0.0    |
+| react-native-permissions                          | 4.1.1    |
+| react-native-reanimated                           | 3.5.2    |
+| react-native-safe-area-context                    | 4.7.2    |
+| react-native-screens                              | 3.25.0   |
+| react-native-sound                                | 0.11.2   |
+| react-native-vector-icons                         | 10.0.0   |
+| react-native-video                                | 5.2.1    |
+| rn-fetch-blob                                     | 0.12.0   |
 
 
 
@@ -49,45 +49,45 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 2. **User Authentication and OTP Verification**
 
-- Secure user login and registration with OTP verification to ensure account safety.
+   - Secure user login and registration with OTP verification to ensure account safety.
 
 3. **App Customization**
 
-- Users can personalize their chat experience by changing the chat window wallpaper.
+   - Users can personalize their chat experience by changing the chat window wallpaper.
 
 4. **Theme Auto Detection**
 
-- Automatic theme adjustment based on the device's theme setting, supporting both Dark Mode and Light Mode.
+   - Automatic theme adjustment based on the device's theme setting, supporting both Dark Mode and Light Mode.
 
 5. **Multimedia Messaging**
 
-- Send and receive regular text messages.
-- Emoji support for expressive communication.
-- Ability to send and receive video files.
-- Support for sending and receiving audio files.
-- Capability to share documents within the chat.
+   - Send and receive regular text messages.
+   - Emoji support for expressive communication.
+   - Ability to send and receive video files.
+   - Support for sending and receiving audio files.
+   - Capability to share documents within the chat.
 
 6. **Camera Access**
 
-- Integrated camera functionality to click photos and send image files directly within the chat.
+   - Integrated camera functionality to click photos and send image files directly within the chat.
 
 7. **Media Preview**
 
-- Preview video files and audio files directly within the chat window before sending or after receiving.
+   - Preview video files and audio files directly within the chat window before sending or after receiving.
 
 8. **Contact List Management**
 
-- Auto detection of the contact list.
-- Segregation of contacts into app members and non-members for easier communication management.
+   - Auto detection of the contact list.
+   - Segregation of contacts into app members and non-members for easier communication management.
 
 9. **Performance Optimization**
 
-- Lazy loading of old messages to enhance app performance and provide a smooth user experience.
+   - Lazy loading of old messages to enhance app performance and provide a smooth user experience.
 
 10. **Profile Viewing and Editing**
 
-- View other users' profiles, including their image, name, and contact number.
-- Edit and update the user’s own profile, including changing the profile image and name.
+   - View other users' profiles, including their image, name, and contact number.
+   - Edit and update the user’s own profile, including changing the profile image and name.
 
 
 ## 🛠 **Tech Stack**
