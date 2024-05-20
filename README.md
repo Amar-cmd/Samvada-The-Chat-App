@@ -45,7 +45,7 @@ The Messenger App - **Samvada**, built with **React Native CLI** and **Firebase*
 
 1. **Realtime Communication**
 
-- Instant messaging with seamless, real-time updates.
+   - Instant messaging with seamless, real-time updates.
 
 2. **User Authentication and OTP Verification**
 
